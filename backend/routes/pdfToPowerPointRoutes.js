@@ -1,0 +1,25 @@
+const express = require("express");
+
+const multer = require("multer");
+
+const { convert } = require("../controllers/pdfToPowerPointController");
+
+const router = express.Router();
+
+const upload = multer({
+
+    dest: "uploads/"
+
+});
+
+router.post(
+
+    "/pdftopowerpoint",
+
+    upload.single("pdf"),
+
+    convert
+
+);
+
+module.exports = router;

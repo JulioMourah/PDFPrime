@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFprime - Todas as Ferramentas para PDF</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <!-- ===========================
+         CABEÇALHO
+    ============================ -->
+
+    <header class="header">
+
+        <div class="container">
+
+            <div class="logo">
+                PDFprime
+            </div>
+
+            <nav class="menu">
+                <a href="#">Ferramentas</a>
+                <a href="#">Entrar</a>
+            </nav>
+
+        </div>
+
+    </header>
+
+    <!-- ===========================
+         HERO
+    ============================ -->
+
+    <section class="hero">
+
+        <div class="container">
+
+            <h1>
+                Todas as ferramentas para PDF em um só lugar
+            </h1>
+
+            <p>
+                Converta, edite, una, divida e proteja seus documentos de forma rápida e segura.
+            </p>
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    ☁️
+                </div>
+
+                <h3>
+                    Arraste seu arquivo aqui
+                </h3>
+
+                <p>
+                    ou clique para selecionar um arquivo
+                </p>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/png,image/jpeg,image/webp"
+                    hidden
+                >
+
+                <button
+                    class="btn-primary"
+                    id="selectButton">
+
+                    Selecionar Arquivo
+
+                </button>
+
+                <div id="preview"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <script src="assets/js/upload.js"></script>
+
+</body>
+
+</html>

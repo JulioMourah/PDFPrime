@@ -1,0 +1,47 @@
+.tools-grid-section{
+
+    width:100%;
+
+    max-width:1280px;
+
+    margin:80px auto;
+
+    padding:0 24px;
+
+}
+
+.tools-grid-header{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+.tools-grid-header h2{
+
+    font-size:34px;
+
+    color:#111827;
+
+    margin-bottom:12px;
+
+}
+
+.tools-grid-header p{
+
+    color:#6b7280;
+
+    font-size:17px;
+
+}
+
+.tools-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+    gap:20px;
+
+}
