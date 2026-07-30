@@ -2,8 +2,26 @@ const app = require("./app");
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, "0.0.0.0", () => {
+console.log("🚀 Iniciando PDFPrime...");
+console.log("Sistema Operacional:", process.platform);
+console.log("Node:", process.version);
 
-    console.log(`🚀 Backend rodando na porta ${PORT}`);
+process.on("uncaughtException", (err) => {
+
+    console.error("ERRO NÃO TRATADO:");
+    console.error(err);
+
+});
+
+process.on("unhandledRejection", (err) => {
+
+    console.error("PROMISE REJEITADA:");
+    console.error(err);
+
+});
+
+app.listen(PORT, () => {
+
+    console.log(`Servidor iniciado na porta ${PORT}`);
 
 });
