@@ -1,45 +1,66 @@
-const pdf = require("pdf-poppler");
+const { execFile } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 
 async function convertPdfToJpg(pdfPath, outputPath) {
 
-    const outputDir = path.dirname(outputPath);
+    return new Promise((resolve, reject) => {
 
-    const outputFile = path.basename(outputPath, ".jpg");
+        const outputDir = path.dirname(outputPath);
 
-    const options = {
+        const outputPrefix = path.join(
 
-        format: "jpeg",
-        out_dir: outputDir,
-        out_prefix: outputFile,
-        page: 1
+            outputDir,
 
-    };
+            path.basename(outputPath, ".jpg")
 
-    await pdf.convert(pdfPath, options);
+        );
 
-    const generatedFile = path.join(
+        execFile(
 
-        outputDir,
+            "pdftoppm",
 
-        `${outputFile}-1.jpg`
+            [
 
-    );
+                "-jpeg",
+                "-f", "1",
+                "-singlefile",
+                pdfPath,
+                outputPrefix
 
-    if (!fs.existsSync(generatedFile)) {
+            ],
 
-        throw new Error("Falha ao gerar a imagem.");
+            (error) => {
 
-    }
+                if (error) {
 
-    fs.renameSync(
+                    return reject(error);
 
-        generatedFile,
+                }
 
-        outputPath
+                const generatedFile = `${outputPrefix}.jpg`;
 
-    );
+                if (!fs.existsSync(generatedFile)) {
+
+                    return reject(new Error("Falha ao gerar JPG."));
+
+                }
+
+                fs.renameSync(
+
+                    generatedFile,
+
+                    outputPath
+
+                );
+
+                resolve();
+
+            }
+
+        );
+
+    });
 
 }
 
