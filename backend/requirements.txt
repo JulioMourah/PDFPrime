@@ -1,0 +1,9 @@
+pdf2image
+python-docx
+openpyxl
+python-pptx
+PyMuPDF
+pillow
+camelot-py
+tabula-py
+pandas
