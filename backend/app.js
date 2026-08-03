@@ -24,6 +24,11 @@ const pdfToExcelRoutes = require("./routes/pdfToExcelRoutes");
 const pdfToPowerPointRoutes = require("./routes/pdfToPowerPointRoutes");
 const pdfToTextRoutes = require("./routes/pdfToTextRoutes");
 
+// Grupo 4
+const wordToPdfRoutes = require("./routes/wordToPdfRoutes");
+const excelToPdfRoutes = require("./routes/excelToPdfRoutes");
+const powerPointToPdfRoutes = require("./routes/powerPointToPdfRoutes");
+
 const app = express();
 
 app.use(cors());
@@ -51,6 +56,11 @@ app.use("/api", pdfToWordRoutes);
 app.use("/api", pdfToExcelRoutes);
 app.use("/api", pdfToPowerPointRoutes);
 app.use("/api", pdfToTextRoutes);
+
+// Grupo 4
+app.use("/api", wordToPdfRoutes);
+app.use("/api", excelToPdfRoutes);
+app.use("/api", powerPointToPdfRoutes);
 
 app.get("/", (req, res) => {
     res.json({
