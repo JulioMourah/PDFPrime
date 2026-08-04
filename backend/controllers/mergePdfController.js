@@ -13,64 +13,42 @@ async function mergePdf(req, res) {
         const files = req.files;
 
         if (!files || files.length < 2) {
-
             return res.status(400).json({
-
                 error: "Selecione pelo menos dois PDFs."
-
             });
-
         }
 
-        const outputName = `${uuid()}.pdf`;
+        const outputDir = path.join(__dirname, "..", "output");
+
+        fs.mkdirSync(outputDir, { recursive: true });
 
         const outputPath = path.join(
-
-            __dirname,
-            "..",
-            "output",
-            outputName
-
+            outputDir,
+            `${uuid()}.pdf`
         );
 
-        await mergePdfs(
-
-            files,
-
-            outputPath
-
-        );
+        await mergePdfs(files, outputPath);
 
         res.download(outputPath, () => {
 
             files.forEach(file => {
 
-                if (fs.existsSync(file.path)) {
-
+                if (fs.existsSync(file.path))
                     fs.unlinkSync(file.path);
-
-                }
 
             });
 
-            if (fs.existsSync(outputPath)) {
-
+            if (fs.existsSync(outputPath))
                 fs.unlinkSync(outputPath);
-
-            }
 
         });
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
 
         res.status(500).json({
-
             error: error.message
-
         });
 
     }
@@ -78,7 +56,5 @@ async function mergePdf(req, res) {
 }
 
 module.exports = {
-
     mergePdf
-
 };

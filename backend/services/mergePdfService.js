@@ -1,7 +1,10 @@
 const fs = require("fs");
+const path = require("path");
 const { PDFDocument } = require("pdf-lib");
 
 async function mergePdfs(files, outputPath) {
+
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
     const mergedPdf = await PDFDocument.create();
 
@@ -27,7 +30,5 @@ async function mergePdfs(files, outputPath) {
 }
 
 module.exports = {
-
     mergePdfs
-
 };
