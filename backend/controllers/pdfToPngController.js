@@ -22,14 +22,19 @@ async function pdfToPng(req, res) {
 
         }
 
-        const outputName = `${uuid()}.png`;
+        const outputDir = path.join(__dirname, "..", "output");
+
+        if (!fs.existsSync(outputDir)) {
+
+            fs.mkdirSync(outputDir, { recursive: true });
+
+        }
 
         const outputPath = path.join(
 
-            __dirname,
-            "..",
-            "output",
-            outputName
+            outputDir,
+
+            `${uuid()}.png`
 
         );
 

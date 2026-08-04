@@ -13,60 +13,43 @@ async function pdfToJpg(req, res) {
         const file = req.file;
 
         if (!file) {
-
             return res.status(400).json({
-
                 error: "Nenhum PDF enviado."
-
             });
-
         }
 
-        const outputName = `${uuid()}.jpg`;
+        const outputDir = path.join(__dirname, "..", "output");
+
+        if (!fs.existsSync(outputDir)) {
+            fs.mkdirSync(outputDir, { recursive: true });
+        }
 
         const outputPath = path.join(
-
-            __dirname,
-            "..",
-            "output",
-            outputName
-
+            outputDir,
+            `${uuid()}.jpg`
         );
 
         await convertPdfToJpg(
-
             file.path,
-
             outputPath
-
         );
 
         res.download(outputPath, () => {
 
-            if (fs.existsSync(file.path)) {
-
+            if (fs.existsSync(file.path))
                 fs.unlinkSync(file.path);
 
-            }
-
-            if (fs.existsSync(outputPath)) {
-
+            if (fs.existsSync(outputPath))
                 fs.unlinkSync(outputPath);
-
-            }
 
         });
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
 
         res.status(500).json({
-
             error: error.message
-
         });
 
     }
@@ -74,7 +57,5 @@ async function pdfToJpg(req, res) {
 }
 
 module.exports = {
-
     pdfToJpg
-
 };

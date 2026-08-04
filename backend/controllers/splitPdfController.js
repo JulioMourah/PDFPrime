@@ -24,14 +24,27 @@ async function split(req, res) {
 
         }
 
-        const outputName = `${uuid()}.pdf`;
+        const outputDir = path.join(
+
+            __dirname,
+
+            "..",
+
+            "output"
+
+        );
+
+        if (!fs.existsSync(outputDir)) {
+
+            fs.mkdirSync(outputDir, { recursive: true });
+
+        }
 
         const outputPath = path.join(
 
-            __dirname,
-            "..",
-            "output",
-            outputName
+            outputDir,
+
+            `${uuid()}.pdf`
 
         );
 
@@ -44,6 +57,12 @@ async function split(req, res) {
             outputPath
 
         );
+
+        if (!fs.existsSync(outputPath)) {
+
+            throw new Error("O PDF não foi gerado.");
+
+        }
 
         res.download(outputPath, () => {
 

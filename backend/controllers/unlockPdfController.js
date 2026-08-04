@@ -36,13 +36,25 @@ async function unlock(req, res) {
 
         }
 
-        const outputPath = path.join(
+        const outputDir = path.join(
 
             __dirname,
 
             "..",
 
-            "output",
+            "output"
+
+        );
+
+        if (!fs.existsSync(outputDir)) {
+
+            fs.mkdirSync(outputDir, { recursive: true });
+
+        }
+
+        const outputPath = path.join(
+
+            outputDir,
 
             `${uuid()}.pdf`
 
@@ -57,6 +69,12 @@ async function unlock(req, res) {
             password
 
         );
+
+        if (!fs.existsSync(outputPath)) {
+
+            throw new Error("O PDF desbloqueado não foi gerado.");
+
+        }
 
         res.download(outputPath, () => {
 

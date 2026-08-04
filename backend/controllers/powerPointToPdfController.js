@@ -33,6 +33,12 @@ async function powerPointToPdf(req, res) {
 
         );
 
+        if (!fs.existsSync(outputDir)) {
+
+            fs.mkdirSync(outputDir, { recursive: true });
+
+        }
+
         const pdfPath = await convertPowerPointToPdf(
 
             file.path,
@@ -40,6 +46,12 @@ async function powerPointToPdf(req, res) {
             outputDir
 
         );
+
+        if (!fs.existsSync(pdfPath)) {
+
+            throw new Error("O PDF não foi gerado.");
+
+        }
 
         res.download(pdfPath, () => {
 

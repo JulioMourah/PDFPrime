@@ -13,56 +13,44 @@ async function imageToPdf(req, res) {
         const file = req.file;
 
         if (!file) {
-
             return res.status(400).json({
-
                 error: "Nenhuma imagem enviada."
-
             });
-
         }
 
-        const outputName = `${uuid()}.pdf`;
+        const outputDir = path.join(__dirname, "..", "output");
+
+        if (!fs.existsSync(outputDir)) {
+            fs.mkdirSync(outputDir, { recursive: true });
+        }
 
         const outputPath = path.join(
-
-            __dirname,
-            "..",
-            "output",
-            outputName
-
+            outputDir,
+            `${uuid()}.pdf`
         );
 
         await convertImageToPdf(
-
             file.path,
             file.mimetype,
             outputPath
-
         );
 
         res.download(outputPath, () => {
 
-            if (fs.existsSync(file.path)) {
+            if (fs.existsSync(file.path))
                 fs.unlinkSync(file.path);
-            }
 
-            if (fs.existsSync(outputPath)) {
+            if (fs.existsSync(outputPath))
                 fs.unlinkSync(outputPath);
-            }
 
         });
 
     } catch (error) {
 
-        console.error("===== ERRO NO BACKEND =====");
         console.error(error);
-        console.error("===========================");
 
         res.status(500).json({
-
             error: error.message
-
         });
 
     }
@@ -70,7 +58,5 @@ async function imageToPdf(req, res) {
 }
 
 module.exports = {
-
     imageToPdf
-
 };

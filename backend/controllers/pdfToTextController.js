@@ -13,15 +13,11 @@ async function convert(req, res) {
 
         }
 
-        const outputDir = path.join(
-            __dirname,
-            "..",
-            "output"
-        );
+        const outputDir = path.join(__dirname, "..", "output");
 
         if (!fs.existsSync(outputDir)) {
 
-            fs.mkdirSync(outputDir);
+            fs.mkdirSync(outputDir, { recursive: true });
 
         }
 
@@ -33,11 +29,6 @@ async function convert(req, res) {
 
         );
 
-        console.log("================================");
-        console.log("PDF recebido:", req.file.path);
-        console.log("Arquivo de saída:", outputFile);
-        console.log("================================");
-
         await pdfToText(
 
             req.file.path,
@@ -45,6 +36,12 @@ async function convert(req, res) {
             outputFile
 
         );
+
+        if (!fs.existsSync(outputFile)) {
+
+            throw new Error("O arquivo TXT não foi gerado.");
+
+        }
 
         res.download(outputFile, () => {
 

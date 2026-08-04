@@ -3,9 +3,7 @@ const fs = require("fs");
 const { v4: uuid } = require("uuid");
 
 const {
-
     extractPages
-
 } = require("../services/extractPagesService");
 
 async function extract(req, res) {
@@ -14,55 +12,42 @@ async function extract(req, res) {
 
         const file = req.file;
 
-        const pages = req.body.pages
-            .split(",")
-            .map(page => page.trim());
-
         if (!file) {
 
             return res.status(400).json({
-
                 error: "PDF não enviado."
-
             });
 
         }
 
+        const pages = req.body.pages
+            .split(",")
+            .map(page => page.trim());
+
+        const outputDir = path.join(__dirname, "..", "output");
+
+        if (!fs.existsSync(outputDir)) {
+            fs.mkdirSync(outputDir, { recursive: true });
+        }
+
         const outputPath = path.join(
-
-            __dirname,
-
-            "..",
-
-            "output",
-
+            outputDir,
             `${uuid()}.pdf`
-
         );
 
         await extractPages(
-
             file.path,
-
             outputPath,
-
             pages
-
         );
 
         res.download(outputPath, () => {
 
-            if (fs.existsSync(file.path)) {
-
+            if (fs.existsSync(file.path))
                 fs.unlinkSync(file.path);
 
-            }
-
-            if (fs.existsSync(outputPath)) {
-
+            if (fs.existsSync(outputPath))
                 fs.unlinkSync(outputPath);
-
-            }
 
         });
 
@@ -73,9 +58,7 @@ async function extract(req, res) {
         console.error(error);
 
         res.status(500).json({
-
             error: error.message
-
         });
 
     }
@@ -83,7 +66,5 @@ async function extract(req, res) {
 }
 
 module.exports = {
-
     extract
-
 };

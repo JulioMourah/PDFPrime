@@ -17,23 +17,24 @@ async function convert(req, res) {
 
         if (!fs.existsSync(outputDir)) {
 
-            fs.mkdirSync(outputDir);
+            fs.mkdirSync(outputDir, { recursive: true });
 
         }
 
         const outputFile = path.join(
+
             outputDir,
+
             path.parse(req.file.originalname).name + ".pptx"
+
         );
 
-        console.log("================================");
-        console.log("PDF recebido:", req.file.path);
-        console.log("Arquivo de saída:", outputFile);
-        console.log("================================");
-
         await pdfToPowerPoint(
+
             req.file.path,
+
             outputFile
+
         );
 
         if (!fs.existsSync(outputFile)) {
@@ -62,10 +63,7 @@ async function convert(req, res) {
 
     catch (err) {
 
-        console.error("================================");
-        console.error("ERRO PDF → POWERPOINT");
         console.error(err);
-        console.error("================================");
 
         res.status(500).send(err.toString());
 

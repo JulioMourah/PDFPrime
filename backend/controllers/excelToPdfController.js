@@ -2,9 +2,7 @@ const path = require("path");
 const fs = require("fs");
 
 const {
-
     convertExcelToPdf
-
 } = require("../services/excelToPdfService");
 
 async function excelToPdf(req, res) {
@@ -16,44 +14,29 @@ async function excelToPdf(req, res) {
         if (!file) {
 
             return res.status(400).json({
-
                 error: "Nenhum arquivo enviado."
-
             });
 
         }
 
-        const outputDir = path.join(
+        const outputDir = path.join(__dirname, "..", "output");
 
-            __dirname,
-
-            "..",
-
-            "output"
-
-        );
+        if (!fs.existsSync(outputDir)) {
+            fs.mkdirSync(outputDir, { recursive: true });
+        }
 
         const pdfPath = await convertExcelToPdf(
-
             file.path,
-
             outputDir
-
         );
 
         res.download(pdfPath, () => {
 
-            if (fs.existsSync(file.path)) {
-
+            if (fs.existsSync(file.path))
                 fs.unlinkSync(file.path);
 
-            }
-
-            if (fs.existsSync(pdfPath)) {
-
+            if (fs.existsSync(pdfPath))
                 fs.unlinkSync(pdfPath);
-
-            }
 
         });
 
@@ -64,9 +47,7 @@ async function excelToPdf(req, res) {
         console.error(error);
 
         res.status(500).json({
-
             error: error.message
-
         });
 
     }
@@ -74,7 +55,5 @@ async function excelToPdf(req, res) {
 }
 
 module.exports = {
-
     excelToPdf
-
 };
