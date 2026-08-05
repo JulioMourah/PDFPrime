@@ -18,8 +18,13 @@ function Header() {
 
                 <a href="#">Preços</a>
 
-                <a href="#">Blog</a>
-
+                <a
+                    href="https://juliomourah.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Blog
+                </a>
 
             </nav>
 
