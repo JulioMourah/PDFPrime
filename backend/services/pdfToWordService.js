@@ -1,39 +1,37 @@
 const { exec } = require("child_process");
 const path = require("path");
 
+const PYTHON =
+    process.platform === "win32"
+        ? "C:\\Users\\Pedro Santos\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
+        : "python3";
+
 function pdfToWord(inputPath, outputPath) {
 
     return new Promise((resolve, reject) => {
 
-        const python = "C:\\Users\\Pedro Santos\\AppData\\Local\\Programs\\Python\\Python313\\python.exe";
+        const script = path.join(
+            __dirname,
+            "..",
+            "scripts",
+            "pdfToWord.py"
+        );
 
-        const script = path.join(__dirname, "..", "scripts", "pdfToWord.py");
+        const command = `"${PYTHON}" "${script}" "${inputPath}" "${outputPath}"`;
 
         console.log("================================");
-        console.log("Python:", python);
-        console.log("Existe script:", script);
-        console.log("Input:", inputPath);
-        console.log("Output:", outputPath);
-        console.log("================================");
-
-        const command = `"${python}" "${script}" "${inputPath}" "${outputPath}"`;
-
         console.log(command);
+        console.log("================================");
 
         exec(command, (error, stdout, stderr) => {
 
-            console.log("========== STDOUT ==========");
             console.log(stdout);
-
-            console.log("========== STDERR ==========");
             console.log(stderr);
 
-            console.log("========== ERROR ==========");
-            console.log(error);
-
             if (error) {
-                reject(error);
-                return;
+
+                return reject(error);
+
             }
 
             resolve();
@@ -45,5 +43,7 @@ function pdfToWord(inputPath, outputPath) {
 }
 
 module.exports = {
+
     pdfToWord
+
 };

@@ -1,9 +1,8 @@
-pdf2image
-python-docx
-openpyxl
-python-pptx
+pdf2docx
 PyMuPDF
-pillow
+python-pptx
 camelot-py
-tabula-py
 pandas
+openpyxl
+opencv-python-headless
+ghostscript

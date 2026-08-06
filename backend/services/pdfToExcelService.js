@@ -1,11 +1,14 @@
 const { exec } = require("child_process");
 const path = require("path");
 
+const PYTHON =
+    process.platform === "win32"
+        ? "C:\\Users\\Pedro Santos\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
+        : "python3";
+
 function pdfToExcel(inputPath, outputPath) {
 
     return new Promise((resolve, reject) => {
-
-        const python = "C:\\Users\\Pedro Santos\\AppData\\Local\\Programs\\Python\\Python313\\python.exe";
 
         const script = path.join(
             __dirname,
@@ -14,19 +17,22 @@ function pdfToExcel(inputPath, outputPath) {
             "pdfToExcel.py"
         );
 
-        const command = `"${python}" "${script}" "${inputPath}" "${outputPath}"`;
+        const command = `"${PYTHON}" "${script}" "${inputPath}" "${outputPath}"`;
+
+        console.log(command);
 
         exec(command, (error, stdout, stderr) => {
 
+            console.log(stdout);
+            console.log(stderr);
+
             if (error) {
 
-                reject(stderr || error.message);
-
-                return;
+                return reject(error);
 
             }
 
-            resolve(stdout);
+            resolve();
 
         });
 
