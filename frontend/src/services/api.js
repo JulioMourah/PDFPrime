@@ -1,4 +1,4 @@
-const API_URL = "https://pdfprime-api.onrender.com/api";
+const API_URL = "https://pdfprime-api-v2.onrender.com/api";
 
 async function request(endpoint, formData) {
 
