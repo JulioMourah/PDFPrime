@@ -64,8 +64,13 @@ async function convert(req, res) {
     catch (err) {
 
         console.error(err);
+        console.error("========== PDF -> POWERPOINT ==========");
+        console.error(err);
+        console.error(err.stdout);
+        console.error(err.stderr);
+        console.error("==================================");
 
-        res.status(500).send(err.toString());
+        res.status(500).send(err.stderr || err.toString());
 
     }
 
